@@ -12,7 +12,8 @@ class Tours {
         img: 'assets/images/thailand.jpg',
         users: [
           new User(profileImage: 'assets/images/person1.jpg'),
-          new User(profileImage: 'assets/images/person2.jpg'),
+          new User(profileImage: 'assets/images/person3.jpg'),
+          new User(profileImage: 'assets/images/person4.jpg'),
         ]),
     new Tour(
         name: 'Malaysia',
@@ -22,7 +23,7 @@ class Tours {
         price: 254.5,
         img: 'assets/images/malaysia.jpg',
         users: [
-          new User(profileImage: 'assets/images/person5.jpg'),
+          new User(profileImage: 'assets/images/person1.jpg'),
           new User(profileImage: 'assets/images/person4.jpg'),
         ]),
     new Tour(
@@ -33,8 +34,8 @@ class Tours {
         price: 254.5,
         img: 'assets/images/dominican.jpg',
         users: [
-          new User(profileImage: 'assets/images/person5.jpg'),
-          new User(profileImage: 'assets/images/person4.jpg'),
+          new User(profileImage: 'assets/images/person2.jpg'),
+          new User(profileImage: 'assets/images/person3.jpg'),
         ]),
     new Tour(
         name: 'Cambodia',
@@ -44,7 +45,7 @@ class Tours {
         price: 254.5,
         img: 'assets/images/cambodia.jpg',
         users: [
-          new User(profileImage: 'assets/images/person5.jpg'),
+          new User(profileImage: 'assets/images/person3.jpg'),
           new User(profileImage: 'assets/images/person4.jpg'),
         ]),
     new Tour(
@@ -55,7 +56,7 @@ class Tours {
         price: 254.5,
         img: 'assets/images/vietnam.jpg',
         users: [
-          new User(profileImage: 'assets/images/person5.jpg'),
+          new User(profileImage: 'assets/images/person1.jpg'),
           new User(profileImage: 'assets/images/person4.jpg'),
         ]),
   ];
