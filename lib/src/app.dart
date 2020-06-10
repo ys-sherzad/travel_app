@@ -7,7 +7,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My First App',
+      title: 'Discount Tour',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Nunito',

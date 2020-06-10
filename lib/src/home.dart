@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'utils/ColorLib.dart';
+import 'repo/data.dart';
+import 'repo/Tour.dart';
 
-const ratio = 3 / 4.5;
+const tourRatio = 2.1 / 3;
 const cMargin = 15.0;
 
 class Home extends StatefulWidget {
@@ -20,66 +22,82 @@ class _HomeState extends State<Home> {
     });
   }
 
-  Widget _buildCountryItem(bool extraPadding) {
-    return Stack(
-      children: [
-        Container(
-          height: 240.0,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(25.0),
-              image: DecorationImage(
-                image: AssetImage('assets/images/thailand.jpg'),
-                fit: BoxFit.cover,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: ColorLib.cardBackground.withOpacity(0.8),
-                  spreadRadius: 2,
-                  blurRadius: 9,
-                  offset: Offset(0, 9),
-                )
-              ]),
-          margin: EdgeInsets.only(right: cMargin, top: 10.0, bottom: 10.0),
-          // margin: EdgeInsets.fromLTRB(16.0, 0.0, cMargin, 0.0),
-        )
-      ],
+  Widget _buildTourItem(List<Tour> collection, int index) {
+    return AspectRatio(
+      aspectRatio: tourRatio,
+      child: Container(
+        margin: EdgeInsets.only(right: cMargin),
+        child: Stack(
+          children: [
+            Container(
+              height: 240.0,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25.0),
+                  image: DecorationImage(
+                    image: AssetImage(collection[index].img),
+                    fit: BoxFit.cover,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: ColorLib.cardBackground.withOpacity(1.0),
+                      spreadRadius: 2,
+                      blurRadius: 9,
+                      offset: Offset(0, 6),
+                    )
+                  ]),
+            )
+          ],
+        ),
+      ),
     );
   }
 
   Widget _buildHorizontalCountries() {
     return Container(
-      height: 280.0,
-      // width: double.infinity,
-      // margin: EdgeInsets.only(bottom: 50.0),
-      // color: Colors.blue,
-      child: ListView(
+      height: 265.0,
+      width: double.infinity,
+      margin: EdgeInsets.only(top: 10.0),
+      child: ListView.builder(
         scrollDirection: Axis.horizontal,
-        children: [
-          SizedBox(
-            width: 10.0,
-          ),
-          AspectRatio(
-            aspectRatio: ratio,
-            child: _buildCountryItem(true),
-          ),
-          AspectRatio(
-            aspectRatio: ratio,
-            child: _buildCountryItem(false),
-          ),
-          AspectRatio(
-            aspectRatio: ratio,
-            child: _buildCountryItem(false),
-          ),
-          AspectRatio(
-            aspectRatio: ratio,
-            child: _buildCountryItem(false),
-          ),
-          AspectRatio(
-            aspectRatio: ratio,
-            child: _buildCountryItem(false),
-          ),
-        ],
+        itemCount: Tours.collection.length,
+        padding: EdgeInsets.only(left: 12.0),
+        itemBuilder: (context, index) {
+          return _buildTourItem(Tours.collection, index);
+        },
       ),
+    );
+  }
+
+  Widget _buildSectionHeader(String title) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 15.0),
+      child: Text(
+        title,
+        style: TextStyle(fontWeight: FontWeight.w700, fontSize: 21.5),
+      ),
+    );
+  }
+
+  Widget _buildPopularTours() {
+    // return Row(
+    //   // children: Tours.collection.map((tour) => new Text('hellow').toList())
+    //   children: [for (var item in Tours.collection) Text('Hellow')],
+    // );
+    return Column(
+      children: Tours.collection.map((tour) {
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25),
+            color: Colors.blue,
+          ),
+          height: 100.0,
+          width: double.infinity,
+          margin: EdgeInsets.only(bottom: 10.0),
+          child: Row(
+            children: [Text('Helllow')],
+          ),
+        );
+      }).toList(),
     );
   }
 
@@ -140,6 +158,7 @@ class _HomeState extends State<Home> {
           // height: MediaQuery.of(context).size.height,
           // color: Colors.b,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
                 height: 18.0,
@@ -149,13 +168,29 @@ class _HomeState extends State<Home> {
                 alignment: Alignment.topLeft,
                 child: Text(
                   'Find the best tour',
-                  style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.w700),
+                  style: TextStyle(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.w700,
+                    color: ColorLib.text,
+                  ),
                 ),
               ),
               SizedBox(
-                height: 18.0,
+                height: 16.0,
+              ),
+              _buildSectionHeader('Country'),
+              SizedBox(
+                height: 14.0,
               ),
               _buildHorizontalCountries(),
+              _buildSectionHeader('Popular Tours'),
+              SizedBox(
+                height: 22.0,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: _buildPopularTours(),
+              ),
             ],
           ),
         ),
