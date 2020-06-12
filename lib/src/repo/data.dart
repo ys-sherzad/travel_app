@@ -59,7 +59,7 @@ class Tours {
         name: 'Vietnam',
         type: 'Sale',
         tourCount: 3,
-        rating: 4.1,
+        rating: 4.5,
         description: '10 nights for two/all inclusive',
         price: 254.5,
         img: 'assets/images/vietnam.jpg',

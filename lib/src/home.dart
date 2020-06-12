@@ -111,16 +111,16 @@ class _HomeState extends State<Home> {
         image: AssetImage(collection[index].img),
         fit: BoxFit.cover,
         colorFilter: ColorFilter.mode(
-          Colors.black.withOpacity(0.25),
+          Colors.black.withOpacity(0.18),
           BlendMode.srcOver,
         ),
       ),
       boxShadow: [
         BoxShadow(
-          color: ColorLib.cardBackground.withOpacity(1.0),
+          color: ColorLib.primaryLight.withOpacity(0.3),
           spreadRadius: 2,
-          blurRadius: 7,
-          offset: Offset(0, 7),
+          blurRadius: 8,
+          offset: Offset(0, 5),
         )
       ],
     );
@@ -146,7 +146,7 @@ class _HomeState extends State<Home> {
                         width: 50.0,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Colors.grey[50].withOpacity(0.25)),
+                            color: Colors.grey[50].withOpacity(0.3)),
                         child: Center(
                           child: Text(
                             collection[index].type,
@@ -201,7 +201,7 @@ class _HomeState extends State<Home> {
                         width: 28.0,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8.0),
-                          color: Colors.grey[50].withOpacity(0.25),
+                          color: Colors.grey[50].withOpacity(0.3),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 6),
@@ -258,7 +258,8 @@ class _HomeState extends State<Home> {
       padding: const EdgeInsets.only(left: 15.0),
       child: Text(
         title,
-        style: TextStyle(fontWeight: FontWeight.w700, fontSize: 21.5),
+        style: TextStyle(
+            fontWeight: FontWeight.w700, fontSize: 21.5, color: ColorLib.text),
       ),
     );
   }
@@ -269,9 +270,8 @@ class _HomeState extends State<Home> {
         return Container(
           // clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25.0),
-            color: ColorLib.cardBackground,
-          ),
+              borderRadius: BorderRadius.circular(25.0),
+              color: ColorLib.cardBackground),
           height: 95.0,
           width: double.infinity,
           margin: EdgeInsets.only(bottom: 14.0),
@@ -287,6 +287,10 @@ class _HomeState extends State<Home> {
                   image: DecorationImage(
                     image: AssetImage(tour.img),
                     fit: BoxFit.cover,
+                    colorFilter: ColorFilter.mode(
+                      Colors.black.withOpacity(0.1),
+                      BlendMode.srcOver,
+                    ),
                   ),
                 ),
                 child: null,
@@ -306,7 +310,9 @@ class _HomeState extends State<Home> {
                             Text(
                               tour.name,
                               style: TextStyle(
-                                  fontSize: 16.0, fontWeight: FontWeight.w800),
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w800,
+                                  color: ColorLib.text),
                             ),
                             SizedBox(
                               height: 4.0,
@@ -314,7 +320,9 @@ class _HomeState extends State<Home> {
                             Text(
                               tour.description,
                               style: TextStyle(
-                                  fontSize: 14.0, fontWeight: FontWeight.w600),
+                                  fontSize: 14.0,
+                                  fontWeight: FontWeight.w600,
+                                  color: ColorLib.text.withOpacity(0.6)),
                             ),
                             SizedBox(
                               height: 4.0,
@@ -322,7 +330,9 @@ class _HomeState extends State<Home> {
                             Text(
                               '\$ ${tour.price.toString()}',
                               style: TextStyle(
-                                  fontSize: 16.0, fontWeight: FontWeight.w800),
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w800,
+                                  color: ColorLib.text),
                             ),
                           ],
                         )),
@@ -390,30 +400,30 @@ class _HomeState extends State<Home> {
         type: BottomNavigationBarType.fixed,
         showSelectedLabels: false,
         showUnselectedLabels: false,
-        selectedItemColor: ColorLib.primary,
+        selectedItemColor: ColorLib.secondary,
         unselectedItemColor: ColorLib.primaryLight,
         selectedIconTheme: IconThemeData(size: 26.0),
         unselectedIconTheme: IconThemeData(size: 26.0),
         elevation: 20.0,
         items: [
           BottomNavigationBarItem(
-            icon: new Icon(Ionicons.ios_home),
+            icon: new Icon(Feather.home),
             title: Text('Home'),
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Ionicons.ios_star),
+            icon: new Icon(Feather.star),
             title: Text('Favorite'),
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Ionicons.ios_heart),
+            icon: new Icon(Feather.heart),
             title: Text('Heart'),
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Ionicons.ios_bonfire),
+            icon: new Icon(Feather.box),
             title: Text('Dollar'),
           ),
           BottomNavigationBarItem(
-            icon: new Icon(Ionicons.ios_search),
+            icon: new Icon(Feather.search),
             title: Text('Search'),
           ),
         ],
@@ -437,21 +447,24 @@ class _HomeState extends State<Home> {
                   style: TextStyle(
                     fontSize: 30.0,
                     fontWeight: FontWeight.w700,
-                    color: ColorLib.text,
+                    color: ColorLib.primary,
                   ),
                 ),
               ),
               SizedBox(
-                height: 16.0,
+                height: 12.0,
               ),
               _buildSectionHeader('Country'),
               SizedBox(
-                height: 14.0,
+                height: 4.0,
               ),
               _buildHorizontalCountries(),
+              SizedBox(
+                height: 6.0,
+              ),
               _buildSectionHeader('Popular Tours'),
               SizedBox(
-                height: 22.0,
+                height: 18.0,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
