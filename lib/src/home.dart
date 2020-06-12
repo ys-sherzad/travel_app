@@ -8,8 +8,12 @@ import 'utils/ColorLib.dart';
 import 'repo/data.dart';
 import 'repo/Tour.dart';
 
-const tourRatio = 2.1 / 3;
+const tourRatio = 1 / 1.3;
 const cMargin = 15.0;
+
+const kFontMedium = 13.0;
+const kFontLarge = 14.0;
+const kFontExtraLarge = 20.0;
 
 class Home extends StatefulWidget {
   @override
@@ -33,115 +37,197 @@ class _HomeState extends State<Home> {
   //     );
   //   });
 
-  List<Widget> _buildOverlappedAvatars(List<User> users) {
-    return List.generate(users.length, (index) {
-      return Positioned(
-        // left: index * 16.0,
-        child: CircleAvatar(
-          radius: 12.0,
-          backgroundImage: AssetImage(users[index].profileImage),
+  // Container(
+  //   // alignment: Alignment.center,s
+  //   height: 35.0,
+  //   child: collection[index].users.length > 3
+  //       ? _buildSingleAvatar(collection[index].users)
+  //       : Stack(
+  //           alignment: Alignment.center,
+  //           children: _buildOverlappedAvatars(
+  //               collection[index].users),
+  //         ),
+  // ),
+
+  Widget _buildStackedAvatars(List<User> users) {
+    return Expanded(
+      child: Container(
+        child: Stack(
+          alignment: Alignment.center,
+          children: List.generate(
+            users.length,
+            (index) {
+              return Positioned(
+                right: index * 18.0,
+                child: CircleAvatar(
+                  radius: 13.0,
+                  backgroundImage: AssetImage(users[index].profileImage),
+                ),
+              );
+            },
+          ),
         ),
-      );
-    });
+      ),
+    );
   }
 
-  // var i = 0;
-  // return users.map((user) {
-  //   i++;
-  // return Positioned(
-  //   height: 10.0,
-  //   width: 10.0,
-  //   left: i * 10.0,
-  //   child: Container(
-  //     height: 10.0,
-  //     width: 10.0,
-  //     color: i == 1 ? Colors.red : i == 2 ? Colors.green : Colors.blue,
-  //   ),
-  //   );
-  // }).toList();
-
-  // List<User> stackLayers = List<User>.generate(users.length, (index) {
-  //   return Padding(
-  //     padding: EdgeInsets.fromLTRB(index.toDouble() * overlap, 0, 0, 0),
-  //     child: users[index],
-  //     );
-  // });
+  Widget _buildSingleAvatar(List<User> users) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: ClipRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(14),
+              color: Colors.grey[50].withOpacity(0.25),
+            ),
+            child: Row(children: [
+              CircleAvatar(
+                radius: 14.0,
+                backgroundImage: AssetImage(users[0].profileImage),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 10.0, left: 6.0),
+                child: Text(
+                  '+${users.length - 1}',
+                  style: TextStyle(
+                      fontSize: kFontLarge,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white),
+                ),
+              ),
+            ]),
+          ),
+        ),
+      ),
+    );
+  }
 
   Widget _buildTourItem(List<Tour> collection, int index) {
+    var boxDecoration = BoxDecoration(
+      borderRadius: BorderRadius.circular(20.0),
+      image: DecorationImage(
+        image: AssetImage(collection[index].img),
+        fit: BoxFit.cover,
+        colorFilter: ColorFilter.mode(
+          Colors.black.withOpacity(0.25),
+          BlendMode.srcOver,
+        ),
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: ColorLib.cardBackground.withOpacity(1.0),
+          spreadRadius: 2,
+          blurRadius: 7,
+          offset: Offset(0, 7),
+        )
+      ],
+    );
     return AspectRatio(
       aspectRatio: tourRatio,
       child: Container(
-        margin: EdgeInsets.only(right: cMargin),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25.0),
-        ),
-        child: Stack(
-          // overflow: Overflow.visible,
+        margin: EdgeInsets.only(right: 14.0),
+        padding: EdgeInsets.all(16.0),
+        decoration: boxDecoration,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              height: 240.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25.0),
-                image: DecorationImage(
-                  image: AssetImage(collection[index].img),
-                  fit: BoxFit.cover,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: ColorLib.cardBackground.withOpacity(1.0),
-                    spreadRadius: 2,
-                    blurRadius: 9,
-                    offset: Offset(0, 6),
-                  )
-                ],
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25.0),
-                  color: Colors.black.withOpacity(0.2),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.topCenter,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ClipRect(
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
-                        child: Container(
-                          width: 50.0,
-                          height: 27.0,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.grey[50].withOpacity(0.25)),
-                          child: Center(
-                            child: Text(
-                              'New',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 13.0),
-                            ),
+              height: 28.0,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ClipRect(
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+                      child: Container(
+                        width: 50.0,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.grey[50].withOpacity(0.25)),
+                        child: Center(
+                          child: Text(
+                            collection[index].type,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: kFontLarge),
                           ),
                         ),
                       ),
                     ),
-                    Container(
-                      width: 60.0,
-                      height: 35.0,
-                      color: Colors.green,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children:
-                            _buildOverlappedAvatars(collection[index].users),
+                  ),
+                  collection[index].users.length > 3
+                      ? _buildSingleAvatar(collection[index].users)
+                      : _buildStackedAvatars(collection[index].users)
+                ],
+              ),
+            ),
+            Container(
+              height: 58.0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        collection[index].name,
+                        style: TextStyle(
+                          fontSize: kFontExtraLarge,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 0.45,
+                        ),
+                      ),
+                      Text(
+                        '${collection[index].tourCount.toString()} Tours',
+                        style: TextStyle(
+                          fontSize: kFontLarge,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                  ClipRect(
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+                      child: Container(
+                        height: double.infinity,
+                        width: 28.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                          color: Colors.grey[50].withOpacity(0.25),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 6),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                collection[index].rating.toString(),
+                                style: TextStyle(
+                                  fontSize: kFontMedium,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Icon(
+                                AntDesign.star,
+                                size: 15.0,
+                                color: Colors.white,
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -152,13 +238,14 @@ class _HomeState extends State<Home> {
 
   Widget _buildHorizontalCountries() {
     return Container(
-      height: 265.0,
+      height: 260.0,
       width: double.infinity,
-      margin: EdgeInsets.only(top: 10.0),
+      // margin: EdgeInsets.only(top: 10.0),
       child: ListView.builder(
+        // padding: EdgeInsets.symmetric(vertical: 15.0),
         scrollDirection: Axis.horizontal,
         itemCount: Tours.collection.length,
-        padding: EdgeInsets.only(left: 12.0),
+        padding: EdgeInsets.only(left: 15.0, top: 15.0, bottom: 15.0),
         itemBuilder: (context, index) {
           return _buildTourItem(Tours.collection, index);
         },
@@ -177,22 +264,103 @@ class _HomeState extends State<Home> {
   }
 
   Widget _buildPopularTours() {
-    // return Row(
-    //   // children: Tours.collection.map((tour) => new Text('hellow').toList())
-    //   children: [for (var item in Tours.collection) Text('Hellow')],
-    // );
     return Column(
       children: Tours.collection.map((tour) {
         return Container(
+          // clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25),
-            color: Colors.blue,
+            borderRadius: BorderRadius.circular(25.0),
+            color: ColorLib.cardBackground,
           ),
-          height: 100.0,
+          height: 95.0,
           width: double.infinity,
-          margin: EdgeInsets.only(bottom: 10.0),
+          margin: EdgeInsets.only(bottom: 14.0),
           child: Row(
-            children: [Text('Helllow')],
+            children: [
+              Container(
+                height: double.infinity,
+                width: 105.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(25.0),
+                      topLeft: Radius.circular(25.0)),
+                  image: DecorationImage(
+                    image: AssetImage(tour.img),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: null,
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      top: 2.0, bottom: 2.0, right: 16.0, left: 16.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                            child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              tour.name,
+                              style: TextStyle(
+                                  fontSize: 16.0, fontWeight: FontWeight.w800),
+                            ),
+                            SizedBox(
+                              height: 4.0,
+                            ),
+                            Text(
+                              tour.description,
+                              style: TextStyle(
+                                  fontSize: 14.0, fontWeight: FontWeight.w600),
+                            ),
+                            SizedBox(
+                              height: 4.0,
+                            ),
+                            Text(
+                              '\$ ${tour.price.toString()}',
+                              style: TextStyle(
+                                  fontSize: 16.0, fontWeight: FontWeight.w800),
+                            ),
+                          ],
+                        )),
+                      ),
+                      Container(
+                        height: 58.0,
+                        width: 28.0,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                          color: ColorLib.secondary,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 6),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                tour.rating.toString(),
+                                style: TextStyle(
+                                  fontSize: kFontMedium,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Icon(
+                                AntDesign.star,
+                                size: 15.0,
+                                color: Colors.white,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
           ),
         );
       }).toList(),
@@ -296,3 +464,85 @@ class _HomeState extends State<Home> {
     );
   }
 }
+
+// return AspectRatio(
+//       aspectRatio: tourRatio,
+//       child: Container(
+//         margin: EdgeInsets.only(right: cMargin),
+//         decoration: BoxDecoration(
+//           borderRadius: BorderRadius.circular(25.0),
+//         ),
+//         child: Stack(
+//           // overflow: Overflow.visible,
+//           children: [
+//             Container(
+//               height: 240.0,
+//               decoration: BoxDecoration(
+//                 borderRadius: BorderRadius.circular(25.0),
+//                 image: DecorationImage(
+//                   image: AssetImage(collection[index].img),
+//                   fit: BoxFit.cover,
+//                 ),
+// boxShadow: [
+//   BoxShadow(
+//     color: ColorLib.cardBackground.withOpacity(1.0),
+//     spreadRadius: 2,
+//     blurRadius: 9,
+//     offset: Offset(0, 6),
+//   )
+// ],
+//               ),
+//               child: Container(
+//                 decoration: BoxDecoration(
+//                   borderRadius: BorderRadius.circular(25.0),
+//                   color: Colors.black.withOpacity(0.2),
+//                 ),
+//               ),
+//             ),
+//             Align(
+//               alignment: Alignment.topCenter,
+//               child: Padding(
+//                 padding: const EdgeInsets.all(15.0),
+//                 child: Row(
+//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                   children: [
+// ClipRect(
+//   child: BackdropFilter(
+//     filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+//     child: Container(
+//       width: 50.0,
+//       height: 27.0,
+//       decoration: BoxDecoration(
+//           borderRadius: BorderRadius.circular(10),
+//           color: Colors.grey[50].withOpacity(0.25)),
+//       child: Center(
+//         child: Text(
+//           'New',
+//           style: TextStyle(
+//               color: Colors.white,
+//               fontWeight: FontWeight.bold,
+//               fontSize: 13.0),
+//         ),
+//       ),
+//     ),
+//   ),
+// ),
+// Container(
+//   width: 57.0,
+//   height: 35.0,
+//   // padding: EdgeInsets.only(left: 2.0),
+//   color: Colors.green,
+//   child: Stack(
+//     alignment: Alignment.center,
+//     children:
+//         _buildOverlappedAvatars(collection[index].users),
+//   ),
+// ),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
