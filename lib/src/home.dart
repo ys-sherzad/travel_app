@@ -1,19 +1,10 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';
-
-// import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'repo/User.dart';
 import 'utils/ColorLib.dart';
-import 'repo/data.dart';
+import 'repo/Tours.dart';
+import 'repo/User.dart';
 import 'repo/Tour.dart';
-
-const tourRatio = 1 / 1.3;
-const cMargin = 15.0;
-
-const kFontMedium = 13.0;
-const kFontLarge = 14.0;
-const kFontExtraLarge = 20.0;
+import 'dart:ui';
 
 class Home extends StatefulWidget {
   @override
@@ -22,33 +13,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
-  final overlap = 10.0;
 
-  void _onTabPressed(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  void _onTabPressed(int index) {}
 
-  // List<Widget> stackLayers = List<Widget>.generate(items.length, (index) {
-  //     return Padding(
-  //       padding: EdgeInsets.fromLTRB(index.toDouble() * overlap, 0, 0, 0),
-  //       child: items[index],
-  //     );
-  //   });
-
-  // Container(
-  //   // alignment: Alignment.center,s
-  //   height: 35.0,
-  //   child: collection[index].users.length > 3
-  //       ? _buildSingleAvatar(collection[index].users)
-  //       : Stack(
-  //           alignment: Alignment.center,
-  //           children: _buildOverlappedAvatars(
-  //               collection[index].users),
-  //         ),
-  // ),
-
+  // overlapped avatars in the horizontal Tours list
   Widget _buildStackedAvatars(List<User> users) {
     return Expanded(
       child: Container(
@@ -92,7 +60,7 @@ class _HomeState extends State<Home> {
                 child: Text(
                   '+${users.length - 1}',
                   style: TextStyle(
-                      fontSize: kFontLarge,
+                      fontSize: 14.0,
                       fontWeight: FontWeight.w700,
                       color: Colors.white),
                 ),
@@ -104,7 +72,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget _buildTourItem(List<Tour> collection, int index) {
+  Widget _buildHorizontalTourItem(List<Tour> collection, int index) {
     var boxDecoration = BoxDecoration(
       borderRadius: BorderRadius.circular(20.0),
       image: DecorationImage(
@@ -117,7 +85,7 @@ class _HomeState extends State<Home> {
       ),
       boxShadow: [
         BoxShadow(
-          color: ColorLib.primaryLight.withOpacity(0.3),
+          color: ColorLib.light.withOpacity(0.3),
           spreadRadius: 2,
           blurRadius: 8,
           offset: Offset(0, 5),
@@ -125,7 +93,7 @@ class _HomeState extends State<Home> {
       ],
     );
     return AspectRatio(
-      aspectRatio: tourRatio,
+      aspectRatio: 1 / 1.3,
       child: Container(
         margin: EdgeInsets.only(right: 14.0),
         padding: EdgeInsets.all(16.0),
@@ -153,7 +121,7 @@ class _HomeState extends State<Home> {
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
-                                fontSize: kFontLarge),
+                                fontSize: 14.0),
                           ),
                         ),
                       ),
@@ -177,7 +145,7 @@ class _HomeState extends State<Home> {
                       Text(
                         collection[index].name,
                         style: TextStyle(
-                          fontSize: kFontExtraLarge,
+                          fontSize: 20.0,
                           color: Colors.white,
                           fontWeight: FontWeight.w700,
                           letterSpacing: 0.45,
@@ -186,7 +154,7 @@ class _HomeState extends State<Home> {
                       Text(
                         '${collection[index].tourCount.toString()} Tours',
                         style: TextStyle(
-                          fontSize: kFontLarge,
+                          fontSize: 14.0,
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
                         ),
@@ -211,7 +179,7 @@ class _HomeState extends State<Home> {
                               Text(
                                 collection[index].rating.toString(),
                                 style: TextStyle(
-                                  fontSize: kFontMedium,
+                                  fontSize: 13.0,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.white,
                                 ),
@@ -236,18 +204,16 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Widget _buildHorizontalCountries() {
+  Widget _buildHorizontalList() {
     return Container(
       height: 260.0,
       width: double.infinity,
-      // margin: EdgeInsets.only(top: 10.0),
       child: ListView.builder(
-        // padding: EdgeInsets.symmetric(vertical: 15.0),
         scrollDirection: Axis.horizontal,
         itemCount: Tours.collection.length,
         padding: EdgeInsets.only(left: 15.0, top: 15.0, bottom: 15.0),
         itemBuilder: (context, index) {
-          return _buildTourItem(Tours.collection, index);
+          return _buildHorizontalTourItem(Tours.collection, index);
         },
       ),
     );
@@ -268,7 +234,6 @@ class _HomeState extends State<Home> {
     return Column(
       children: Tours.collection.map((tour) {
         return Container(
-          // clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25.0),
               color: ColorLib.cardBackground),
@@ -342,7 +307,7 @@ class _HomeState extends State<Home> {
                         width: 28.0,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8.0),
-                          color: ColorLib.secondary,
+                          color: ColorLib.accent,
                         ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 6),
@@ -352,7 +317,7 @@ class _HomeState extends State<Home> {
                               Text(
                                 tour.rating.toString(),
                                 style: TextStyle(
-                                  fontSize: kFontMedium,
+                                  fontSize: 13.0,
                                   fontWeight: FontWeight.w600,
                                   color: Colors.white,
                                 ),
@@ -384,7 +349,6 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Text('DiscountTour'),
         centerTitle: true,
-        // textTheme: TextTheme(),
         elevation: 0,
         leading: IconButton(
           onPressed: () {},
@@ -400,8 +364,8 @@ class _HomeState extends State<Home> {
         type: BottomNavigationBarType.fixed,
         showSelectedLabels: false,
         showUnselectedLabels: false,
-        selectedItemColor: ColorLib.secondary,
-        unselectedItemColor: ColorLib.primaryLight,
+        selectedItemColor: ColorLib.accent,
+        unselectedItemColor: ColorLib.light,
         selectedIconTheme: IconThemeData(size: 26.0),
         unselectedIconTheme: IconThemeData(size: 26.0),
         elevation: 20.0,
@@ -430,9 +394,6 @@ class _HomeState extends State<Home> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          // width: MediaQuery.of(context).size.width,
-          // height: MediaQuery.of(context).size.height,
-          // color: Colors.b,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -458,7 +419,7 @@ class _HomeState extends State<Home> {
               SizedBox(
                 height: 4.0,
               ),
-              _buildHorizontalCountries(),
+              _buildHorizontalList(),
               SizedBox(
                 height: 6.0,
               ),
@@ -477,85 +438,3 @@ class _HomeState extends State<Home> {
     );
   }
 }
-
-// return AspectRatio(
-//       aspectRatio: tourRatio,
-//       child: Container(
-//         margin: EdgeInsets.only(right: cMargin),
-//         decoration: BoxDecoration(
-//           borderRadius: BorderRadius.circular(25.0),
-//         ),
-//         child: Stack(
-//           // overflow: Overflow.visible,
-//           children: [
-//             Container(
-//               height: 240.0,
-//               decoration: BoxDecoration(
-//                 borderRadius: BorderRadius.circular(25.0),
-//                 image: DecorationImage(
-//                   image: AssetImage(collection[index].img),
-//                   fit: BoxFit.cover,
-//                 ),
-// boxShadow: [
-//   BoxShadow(
-//     color: ColorLib.cardBackground.withOpacity(1.0),
-//     spreadRadius: 2,
-//     blurRadius: 9,
-//     offset: Offset(0, 6),
-//   )
-// ],
-//               ),
-//               child: Container(
-//                 decoration: BoxDecoration(
-//                   borderRadius: BorderRadius.circular(25.0),
-//                   color: Colors.black.withOpacity(0.2),
-//                 ),
-//               ),
-//             ),
-//             Align(
-//               alignment: Alignment.topCenter,
-//               child: Padding(
-//                 padding: const EdgeInsets.all(15.0),
-//                 child: Row(
-//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                   children: [
-// ClipRect(
-//   child: BackdropFilter(
-//     filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
-//     child: Container(
-//       width: 50.0,
-//       height: 27.0,
-//       decoration: BoxDecoration(
-//           borderRadius: BorderRadius.circular(10),
-//           color: Colors.grey[50].withOpacity(0.25)),
-//       child: Center(
-//         child: Text(
-//           'New',
-//           style: TextStyle(
-//               color: Colors.white,
-//               fontWeight: FontWeight.bold,
-//               fontSize: 13.0),
-//         ),
-//       ),
-//     ),
-//   ),
-// ),
-// Container(
-//   width: 57.0,
-//   height: 35.0,
-//   // padding: EdgeInsets.only(left: 2.0),
-//   color: Colors.green,
-//   child: Stack(
-//     alignment: Alignment.center,
-//     children:
-//         _buildOverlappedAvatars(collection[index].users),
-//   ),
-// ),
-//                   ],
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );

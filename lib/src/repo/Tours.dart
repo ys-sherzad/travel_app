@@ -17,7 +17,6 @@ class Tours {
           new User(profileImage: 'assets/images/person4.jpg'),
           new User(profileImage: 'assets/images/person2.jpg'),
           new User(profileImage: 'assets/images/person4.jpg'),
-          // new User(profileImage: 'assets/images/person2.jpg'),
         ]),
     new Tour(
         name: 'Malaysia',
